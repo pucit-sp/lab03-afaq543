@@ -1,125 +1,131 @@
-/*
-**	This program is a template for SP lab 3 task 3 you are 
-**	required to implement its one function.
-*/
-
-
 #include<stdio.h>
+
 #include<string.h>
-#include <stdlib.h>
 
-/*	
-**	This function take file pointer as paramter to read content from and 
-**	char pointer as an second argument which points to string to search in file
-*/
-void mygrep(FILE*, char*);
+#include<stdlib.h>
 
-/*	
-**	This function take file pointer as paramter to read content from and 
-**	char pointer as an second argument which points to string to search in file
-** 	and char pointer as an third argument to replace the string finded with it.
-*/
-void myreplace(FILE *fp,char *find, char * replace);
+int myGrep(char *str, char *find);
 
+void Usage(char *filename);
 
-int  main(int argc,char *argv[])
-{
+ 
 
+ 
 
-	/*	creating variables	
-*/
+int main(int argc, char *argv[]) {
 
-	int behaviour;
-	FILE *fp;
-	char *filename=argv[1];
-	char *find=argv[2];
-	char * replace;
+    int result, errno;
 
-	/*	check if mygrep is called or myreplace	
-*/
-	if(/*	check if the name of executable is mygrep	*/ )
-	{
-		if(argc != 3)
-		{
-			printf("usage\t./mygrep filename <string-to-search>\n");
-			exit(1);
-		}
+ 
 
-		behaviour = GREP;
-	}
-	else if(/*	check if the name of executable is myreplace	*/)
-	{
-		if(argc != 4)
-		{
-			printf("\t./myreplace filename  <string-to-search> <string-to-replace>");
-			exit(1);
-		}
-		behaviour = REPLACE;
-		replace = argv[3];
-	}
-	else
-	{
-		behaviour = -1;
-	}
+    if(argc < 3 ) {
 
+        Usage(argv[0]);
 
+        exit(1);
 
-	/* opening file	
-*/
+    }
 
-	fp=fopen(filename,"rt");
+ 
 
-	if(behaviour == GREP)
-	{
-		mygrep(fp,find);		/*	caling function	
-*/
-	}
-	else if ( behaviour == REPLACE )
-	{
-		myreplace(fp,find,replace);		/*	calling myreplace	
-*/
-	}
-	
-	fclose(fp);		/*	closing file	
-*/
-	return 0;
-}
+     
 
+    system("clear");
 
-void mygrep(FILE *fp,char *find)
-{
-	char c1[500];
+ 
 
-	/*	Add code to get strings from file
-*/ 
-	while(/*	read a string from file*/)
-	{
-		/*	Add your code here to search a string find on string c1 readed from file	*/
-	}
-}
+    result = myGrep(argv[1], argv[2]);
 
+    if(result == -1) {
 
+        perror("Error");
+        printf("Error number = %d\n", errno);
 
+        exit(1);
 
+    }
 
-void myreplace(FILE *fp,char *find, char * replace)
-{
-	char c1[500];
-	int flen = strlen(find);
-
-
-	while(/*	read a string from file*/)
-	{
-		/*	Add your code here to search a string find on string c1 readed from file	
-*/
-		if(/*	found the string 	*/)
-		{
-			/*	replace the finded string with replace string	*/
-		}
-	}
-
-
+    return(0);
 
 }
 
+ 
+
+void Usage(char *filename) {
+
+    printf("Usage Error\n");
+
+     
+
+}
+
+ 
+
+int myGrep(char *fname, char *str) {
+
+    FILE *fp;
+
+    int lno = 1;
+
+    int result = 0;
+
+    char temp[512];
+
+     
+
+     
+
+    if((fp = fopen(fname, "r")) == NULL) {
+
+        return(-1);
+
+    }
+
+ 
+
+     
+
+ 
+
+    while(fgets(temp, 512, fp) != NULL) {
+
+        if((strstr(temp, str)) != NULL) {
+
+            printf("A match found on line: %d\n", lno);
+
+            printf("\n%s\n", temp);
+
+            result++;
+
+        }
+
+        lno++;
+
+    }
+
+ 
+
+    if(result == 0) {
+
+        printf("\nSorry, couldn't find a match.\n");}
+
+
+
+else
+
+printf("\n%d\n", result);
+
+
+
+     
+
+     
+
+    if (fp) {
+
+        fclose(fp);
+
+    }
+
+}
 
